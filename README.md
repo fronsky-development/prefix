@@ -9,8 +9,8 @@
 
 **Prefix** is a lightweight, modern chat prefix and tablist management plugin for Minecraft (Spigot/Paper) servers. It gives server owners full control over how players appear in chat and in the tablist — group-based prefixes, name colors, chat colors, and weighted tab sorting.
 
-**Website:** [fronsky.nl/projects/prefix](https://fronsky.nl/projects/prefix)  
-**Contact:** [support@fronsky.nl](mailto:support@fronsky.nl)
+**Website:** [fronsky.nl/projects/prefix](https://fronsky.nl/projects/prefix)<br />
+**Contact:** [support@fronsky.nl](mailto:support@fronsky.nl)<br />
 
 ## Table of Contents
 
