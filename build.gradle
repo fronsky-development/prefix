@@ -1,0 +1,99 @@
+plugins {
+    id 'java'
+}
+
+def plugin_name = 'Prefix'
+def plugin_group = 'nl.fronsky'
+def plugin_version = '2.0.0'
+def spigot_version = '1.20'
+def java_version = 17
+
+group = plugin_group
+version = plugin_version
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+}
+
+dependencies {
+    // Spigot API 1.20 (compile only)
+    compileOnly 'org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT'
+
+    // BungeeCord chat (if used anywhere)
+    compileOnly 'net.md-5:bungeecord-chat:1.20-R0.1'
+
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+    implementation 'com.google.code.gson:gson:2.11.0'
+
+    testImplementation platform('org.junit:junit-bom:5.11.3')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(java_version)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release.set(java_version)
+    options.compilerArgs += ["-parameters"]
+}
+
+jar {
+    archiveBaseName.set(plugin_name)
+    archiveVersion.set(plugin_version)
+}
+
+wrapper {
+    gradleVersion = '9.4.0'
+    distributionType = Wrapper.DistributionType.BIN
+}
+
+def build_id = System.getenv('BUILD_ID') ?: new Date().format("yyyyMMdd-HHmmss")
+
+tasks.register('generateBuildInfo') {
+    def outDir = layout.buildDirectory.dir("generated/buildinfo")
+    outputs.dir(outDir)
+    doLast {
+        def dir = outDir.get().asFile
+        dir.mkdirs()
+        def f = new File(dir, "prefix-build.properties")
+        f.text = "version=${plugin_version}\n" +
+                "buildId=${build_id}\n" +
+                "builtAt=${new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")}\n"
+    }
+}
+
+processResources {
+    dependsOn tasks.named('generateBuildInfo')
+    from(layout.buildDirectory.dir("generated/buildinfo")) {
+        include "prefix-build.properties"
+    }
+
+    doFirst {
+        Provider<Directory> buildDirectory = layout.buildDirectory.dir("resources/main")
+
+        buildDirectory.get().asFile.listFiles().each {
+            it.delete()
+        }
+    }
+
+    def props = [plugin_name: plugin_name, plugin_main_class: "${plugin_group}.${plugin_name.toLowerCase()}.Main", plugin_version: plugin_version, spigot_version: spigot_version, java_version: java_version]
+    inputs.properties(props)
+    filteringCharset = 'UTF-8'
+
+    filesMatching('plugin.yml') {
+        expand props
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+}

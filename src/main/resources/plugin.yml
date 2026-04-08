@@ -1,0 +1,12 @@
+name: '${plugin_name}'
+version: '${plugin_version}'
+main: '${plugin_main_class}'
+api-version: '${spigot_version}'
+authors: ['Fronsky']
+website: 'https://fronsky.nl/projects/prefix'
+description: 'This is the official Fronsky Prefix plugin.'
+
+commands:
+  prefix:
+    aliases: ['p']
+    permission: 'prefix.command.prefix'
