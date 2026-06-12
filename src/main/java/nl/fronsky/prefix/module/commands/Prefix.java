@@ -1,18 +1,22 @@
 package nl.fronsky.prefix.module.commands;
 
+import lombok.NonNull;
 import nl.fronsky.prefix.logic.commands.CommandHandler;
 import nl.fronsky.prefix.logic.commands.annotations.CommandClass;
 import nl.fronsky.prefix.logic.commands.annotations.SubCommandMethod;
 import nl.fronsky.prefix.logic.logging.Logger;
-import nl.fronsky.prefix.logic.utils.ColorUtil;
 import nl.fronsky.prefix.module.PrefixModule;
 import nl.fronsky.prefix.module.commands.subcommands.*;
 import nl.fronsky.prefix.module.models.Data;
+import nl.fronsky.prefix.module.models.Messages;
 import nl.fronsky.prefix.module.models.PGroup;
 import nl.fronsky.prefix.module.models.PPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 /**
  * Main command handler for the {@code /prefix} command.
@@ -29,6 +33,7 @@ public class Prefix extends CommandHandler {
     private final ChatColorCmd chatColorCmd;
     private final Weight weightCmd;
     private final Group groupCmd;
+    private final Groups groupsCmd;
     private final Reload reloadCmd;
     private final Help helpCmd;
     private final Info infoCmd;
@@ -42,6 +47,7 @@ public class Prefix extends CommandHandler {
         chatColorCmd = new ChatColorCmd(data);
         weightCmd = new Weight(data);
         groupCmd = new Group(data);
+        groupsCmd = new Groups(data);
         reloadCmd = new Reload(data);
         helpCmd = new Help();
         infoCmd = new Info();
@@ -57,19 +63,19 @@ public class Prefix extends CommandHandler {
                 }
                 others(sender, target);
             } else {
-                Logger.sendMessage(sender, "&cPlayer not found. Please ensure that the player is online.");
+                Logger.sendMessage(sender, Messages.get("player-not-found"));
             }
             return;
         }
         if (!(sender instanceof Player player)) {
-            Logger.sendMessage(sender, "&cThis command can only be executed by players.");
+            Logger.sendMessage(sender, Messages.get("player-only"));
             return;
         }
         var pplayer = new PPlayer(player, data);
         var result = pplayer.getGroup();
         if (!result.isSuccess()) {
             Logger.warning(result.exception().getMessage());
-            Logger.sendWarning(sender, "&cIt seems you are not part of a recognized group, please contact an administrator.");
+            Logger.sendWarning(sender, Messages.get("group-not-exist"));
             return;
         }
         displayPrefixInfo(sender, pplayer, result.value());
@@ -80,7 +86,7 @@ public class Prefix extends CommandHandler {
         var result = pplayer.getGroup();
         if (!result.isSuccess()) {
             Logger.warning(result.exception().getMessage());
-            Logger.sendWarning(sender, "&cIt seems that this player is not part of a recognized group.");
+            Logger.sendWarning(sender, Messages.get("group-not-exist-other"));
             return;
         }
         displayPrefixInfo(sender, pplayer, result.value());
@@ -97,6 +103,57 @@ public class Prefix extends CommandHandler {
         Logger.sendMessage(sender, "&fTab Weight: &7" + pgroup.getTabWeight());
         Logger.sendMessage(sender, "&fGroup: &7&n" + pgroup.getName());
         Logger.sendMessage(sender, "&8<----------------------------------------->");
+    }
+
+    @Override
+    public List<String> onTabComplete(@NonNull CommandSender sender, @NonNull Command command, @NonNull String alias, @NonNull String[] args) {
+        var completions = super.onTabComplete(sender, command, alias, args);
+
+        if (args.length >= 2) {
+            String sub = args[0].toLowerCase();
+            String input = args[args.length - 1].toLowerCase();
+
+            if (args.length == 2) {
+                switch (sub) {
+                    case "chat", "tab", "chatnamecolor", "tabnamecolor", "chatcolor", "weight" -> {
+                        completions = getGroupNames(input);
+                    }
+                    case "group" -> {
+                        completions = getOnlinePlayerNames(input);
+                    }
+                }
+            } else if (args.length == 3) {
+                switch (sub) {
+                    case "chatnamecolor", "tabnamecolor", "chatcolor" -> {
+                        completions = getColorCodes(input);
+                    }
+                    case "group" -> {
+                        completions = getGroupNames(input);
+                    }
+                }
+            }
+        }
+        return completions;
+    }
+
+    private List<String> getGroupNames(String input) {
+        return data.getGroups().get().getKeys(false).stream()
+                .filter(name -> name.toLowerCase().startsWith(input))
+                .toList();
+    }
+
+    private List<String> getOnlinePlayerNames(String input) {
+        return Bukkit.getOnlinePlayers().stream()
+                .map(Player::getName)
+                .filter(name -> name.toLowerCase().startsWith(input))
+                .toList();
+    }
+
+    private List<String> getColorCodes(String input) {
+        var codes = List.of("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f");
+        return codes.stream()
+                .filter(code -> code.startsWith(input))
+                .toList();
     }
 
     @SubCommandMethod
@@ -142,6 +199,11 @@ public class Prefix extends CommandHandler {
     @SubCommandMethod
     public void group(CommandSender sender, String label, String[] args) {
         groupCmd.execute(sender, args);
+    }
+
+    @SubCommandMethod
+    public void groups(CommandSender sender, String label, String[] args) {
+        groupsCmd.execute(sender, args);
     }
 
     @SubCommandMethod

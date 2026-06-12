@@ -1,0 +1,28 @@
+# Prefix Plugin Messages
+# All messages support & color codes
+
+no-permission: "&cYou do not have permissions to perform this action."
+player-not-found: "&cPlayer not found. Please ensure that the player is online."
+player-only: "&cThis command can only be executed by players."
+group-not-exist: "&cIt seems you are not part of a recognized group, please contact an administrator."
+group-not-exist-other: "&cIt seems that this player is not part of a recognized group."
+group-not-found: "&cGroup '{group}' does not exist."
+group-changed: "&aSuccessfully changed group for '{player}'."
+group-invalid-name: "&cInvalid group name. Group names cannot contain special characters: . : { } [ ] # & * ? | > < = ! % @ \\"
+reload-success: "&aPrefix has been reloaded successfully."
+reload-fail: "&cFailed to reload plugin. Check console for details."
+chat-prefix-changed: "&aSuccessfully changed chat prefix for group '{group}'."
+tab-prefix-changed: "&aSuccessfully changed tab prefix for group '{group}'."
+chat-name-color-changed: "&aSuccessfully changed chat name color for group '{group}'."
+tab-name-color-changed: "&aSuccessfully changed tab name color for group '{group}'."
+chat-color-changed: "&aSuccessfully changed chat color for group '{group}'."
+weight-changed: "&aSuccessfully changed tab weight for group '{group}'."
+chat-error: "&cAn error occurred while retrieving your group information. Please contact an administrator."
+invalid-format-chat: "&cInvalid command format. Usage: /prefix chat <group> <prefix>"
+invalid-format-tab: "&cInvalid command format. Usage: /prefix tab <group> <prefix>"
+invalid-format-chatnamecolor: "&cInvalid command format. Usage: /prefix chatnamecolor <group> <color>"
+invalid-format-tabnamecolor: "&cInvalid command format. Usage: /prefix tabnamecolor <group> <color>"
+invalid-format-chatcolor: "&cInvalid command format. Usage: /prefix chatcolor <group> <color>"
+invalid-format-weight: "&cInvalid command format. Usage: /prefix weight <group> <weight>"
+invalid-format-group: "&cIncorrect format. Usage: /prefix group <player or group> <group or empty>"
+

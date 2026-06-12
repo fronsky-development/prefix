@@ -4,24 +4,23 @@ import nl.fronsky.prefix.logic.commands.interfaces.SubCommand;
 import nl.fronsky.prefix.logic.logging.Logger;
 import nl.fronsky.prefix.logic.utils.ColorUtil;
 import nl.fronsky.prefix.module.models.Data;
+import nl.fronsky.prefix.module.models.Messages;
 import nl.fronsky.prefix.module.models.PGroup;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 
 /**
  * Subcommand handler for {@code /prefix chatcolor <group> <color>}.
  * Sets the chat message color for the specified group.
  */
+@RequiredArgsConstructor
 public class ChatColorCmd implements SubCommand {
     private final Data data;
-
-    public ChatColorCmd(Data data) {
-        this.data = data;
-    }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length < 2) {
-            Logger.sendMessage(sender, "&cInvalid command format. Usage: /prefix chatcolor <group> <color>");
+            Logger.sendMessage(sender, Messages.get("invalid-format-chatcolor"));
             return;
         }
         var pgroup = PGroup.loadOrCreate(args[0], data);
@@ -31,7 +30,6 @@ public class ChatColorCmd implements SubCommand {
             return;
         }
         pgroup.setChatColor(ColorUtil.getChatColor(colorArg.substring(1, 2)));
-        Logger.sendMessage(sender, "&aSuccessfully changed chat color for group '" + pgroup.getName() + "'.");
+        Logger.sendMessage(sender, Messages.get("chat-color-changed", "{group}", pgroup.getName()));
     }
 }
-
