@@ -30,6 +30,7 @@ public class Help implements SubCommand {
             Logger.sendMessage(sender, "&7- /prefix chatcolor <group> <color>");
             Logger.sendMessage(sender, "&7- /prefix weight <group> <weight>");
             Logger.sendMessage(sender, "&7- /prefix group <player or group> <group or empty>");
+            Logger.sendMessage(sender, "&7- /prefix groups");
             Logger.sendMessage(sender, "&7- /prefix reload");
         }
         Logger.sendMessage(sender, "&8<----------------------------------------->");

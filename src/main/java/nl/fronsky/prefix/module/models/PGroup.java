@@ -14,6 +14,19 @@ import org.bukkit.entity.Player;
  * instead of calling the constructor directly to handle persistence.
  */
 public class PGroup {
+    private static final String INVALID_CHARS = ".:{}[]#&*?|><=!%@\\";
+
+    /**
+     * Validates that a group name doesn't contain YAML-breaking special characters.
+     */
+    public static boolean isValidGroupName(String name) {
+        if (name == null || name.isEmpty()) return false;
+        for (char c : INVALID_CHARS.toCharArray()) {
+            if (name.indexOf(c) >= 0) return false;
+        }
+        return true;
+    }
+
     private final Data data;
     @Getter
     private final String name;

@@ -70,6 +70,9 @@ public class Tablist {
 
         // UP-006: Removed legacy 15-char limits — modern API supports much longer strings
         var teamName = getWeight(weight) + player.getDisplayName();
+        if (prefix == null) {
+            prefix = "";
+        }
         prefix = ChatColor.translateAlternateColorCodes('&', prefix);
         if (!prefix.isEmpty() && !prefix.endsWith(" ")) {
             prefix += " ";

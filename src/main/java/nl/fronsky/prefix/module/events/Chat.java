@@ -2,7 +2,9 @@ package nl.fronsky.prefix.module.events;
 
 import nl.fronsky.prefix.logic.logging.Logger;
 import nl.fronsky.prefix.logic.utils.ColorUtil;
+import nl.fronsky.prefix.module.PrefixModule;
 import nl.fronsky.prefix.module.models.Data;
+import nl.fronsky.prefix.module.models.Messages;
 import nl.fronsky.prefix.module.models.PGroup;
 import nl.fronsky.prefix.module.models.PPlayer;
 import org.bukkit.ChatColor;
@@ -40,7 +42,7 @@ public class Chat implements Listener {
 
         if (!result.isSuccess()) {
             Logger.severe(result.exception().getMessage());
-            event.getPlayer().sendMessage(ColorUtil.colorize("&cAn error occurred while retrieving your group information. Please contact an administrator."));
+            event.getPlayer().sendMessage(Messages.get("chat-error"));
             return;
         }
 
@@ -55,19 +57,27 @@ public class Chat implements Listener {
     }
 
     /**
-     * Builds the chat format string based on the player's group settings.
+     * Builds the chat format string based on the player's group settings and config template.
      */
     private String buildFormat(PPlayer pplayer, PGroup pgroup) {
         var displayName = pplayer.getPlayer().getDisplayName();
+        var template = PrefixModule.getData().getConfig().get().getString("chat-format", "{prefix} {namecolor}{name}: {chatcolor}{message}");
 
-        if (pgroup.getChatPrefix() == null) {
-            return ChatColor.GRAY + displayName + ": ";
-        } else if (pgroup.getChatPrefix().isEmpty()) {
-            return pgroup.getChatNameColor() + displayName + ": " + pgroup.getChatColor();
-        } else {
-            return ColorUtil.colorize(pgroup.getChatPrefix()) + " "
-                    + pgroup.getChatNameColor() + displayName + ": " + pgroup.getChatColor();
+        if (pgroup.getChatPrefix() == null || pgroup.getChatPrefix().isEmpty()) {
+            var simplified = template.replace("{prefix} ", "").replace("{prefix}", "");
+            return buildFromTemplate(simplified, "", pgroup, displayName);
         }
+        return buildFromTemplate(template, ColorUtil.colorize(pgroup.getChatPrefix()), pgroup, displayName);
+    }
+
+    private String buildFromTemplate(String template, String prefix, PGroup pgroup, String displayName) {
+        var result = template
+                .replace("{prefix}", prefix)
+                .replace("{namecolor}", pgroup.getChatNameColor().toString())
+                .replace("{name}", displayName)
+                .replace("{chatcolor}", pgroup.getChatColor().toString())
+                .replace("{message}", "");
+        return ColorUtil.colorize(result);
     }
 
     /**

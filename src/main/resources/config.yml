@@ -1,0 +1,10 @@
+# Prefix Plugin Configuration
+
+# Default group assigned to new players who join for the first time
+# Leave empty to not assign any group automatically
+default-group: ""
+
+# Chat format template
+# Available placeholders: {prefix}, {namecolor}, {name}, {chatcolor}, {message}
+chat-format: "{prefix} {namecolor}{name}: {chatcolor}{message}"
+

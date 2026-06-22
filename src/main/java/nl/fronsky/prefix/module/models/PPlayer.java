@@ -23,9 +23,10 @@ public class PPlayer {
         var players = data.getPlayers().get();
         var uuid = player.getUniqueId().toString();
         if (!players.contains(uuid)) {
-            players.set(uuid + ".group", "");
+            String defaultGroup = data.getConfig().get().getString("default-group", "");
+            players.set(uuid + ".group", defaultGroup);
             data.getPlayers().save();
-            groupName = "";
+            groupName = defaultGroup;
         } else {
             groupName = players.getString(uuid + ".group");
         }

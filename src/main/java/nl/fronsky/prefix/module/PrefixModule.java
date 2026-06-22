@@ -22,9 +22,15 @@ public class PrefixModule extends Module {
     @Getter @Setter
     private static Data data;
 
+
     @Override
     public void onLoad() {
-        setData(new Data(new YmlFile("groups"), new YmlFile("players")));
+        setData(new Data(
+                new YmlFile("groups"),
+                new YmlFile("players"),
+                new YmlFile("config"),
+                new YmlFile("messages")
+        ));
     }
 
     @Override
