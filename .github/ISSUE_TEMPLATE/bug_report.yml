@@ -1,0 +1,114 @@
+name: Bug Report
+description: Report a problem with the Prefix plugin
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the form below as
+        completely as possible. Before submitting, search existing issues to avoid duplicates.
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I am running the latest version of Prefix (`/prefix info`).
+          required: true
+        - label: I have searched existing issues and this is not a duplicate.
+          required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      description: Output of `/prefix info`.
+      placeholder: "2.1.1"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      description: Which part of the plugin does this bug relate to?
+      options:
+        - Chat prefixes / chat formatting
+        - Tab prefixes / tablist sorting
+        - Name colors (chat / tab)
+        - Chat colors
+        - Group system / player assignment
+        - Tab weights
+        - Player mentions
+        - Commands / permissions
+        - Configuration (config.yml / groups.yml / players.yml / messages.yml)
+        - Reload
+        - Other / not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: server-software
+    attributes:
+      label: Server software
+      options:
+        - Paper
+        - Spigot
+        - Purpur
+        - Folia
+        - Other (specify below)
+    validations:
+      required: true
+  - type: input
+    id: mc-version
+    attributes:
+      label: Minecraft version
+      description: Must be 1.20 or newer (see README requirements).
+      placeholder: "1.20.6"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Run '...'
+        2. Do '...'
+        3. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Relevant config (groups.yml / players.yml)
+      description: Paste the relevant part of your configuration, if applicable.
+      render: yaml
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console logs / stack traces
+      description: Paste any relevant console output. For long logs, use a paste service and link it here.
+      render: shell
+    validations:
+      required: false
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add any other context or screenshots about the problem here.
+    validations:
+      required: false

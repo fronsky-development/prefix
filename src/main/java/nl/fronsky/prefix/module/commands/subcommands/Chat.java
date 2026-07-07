@@ -23,6 +23,10 @@ public class Chat implements SubCommand {
             Logger.sendMessage(sender, Messages.get("invalid-format-chat"));
             return;
         }
+        if (!PGroup.isValidGroupName(args[0])) {
+            Logger.sendMessage(sender, Messages.get("group-invalid-name"));
+            return;
+        }
         var prefix = new StringBuilder();
         for (int i = 1; i < args.length; ++i) {
             prefix.append(args[i]);

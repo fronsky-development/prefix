@@ -17,6 +17,8 @@ chat-name-color-changed: "&aSuccessfully changed chat name color for group '{gro
 tab-name-color-changed: "&aSuccessfully changed tab name color for group '{group}'."
 chat-color-changed: "&aSuccessfully changed chat color for group '{group}'."
 weight-changed: "&aSuccessfully changed tab weight for group '{group}'."
+invalid-color: "&cInvalid color code. Usage: &<code> (e.g. &a, &6, &f)."
+invalid-number: "&cInvalid number format. Please enter a valid integer."
 chat-error: "&cAn error occurred while retrieving your group information. Please contact an administrator."
 invalid-format-chat: "&cInvalid command format. Usage: /prefix chat <group> <prefix>"
 invalid-format-tab: "&cInvalid command format. Usage: /prefix tab <group> <prefix>"

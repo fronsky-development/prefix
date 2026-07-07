@@ -66,6 +66,8 @@ All commands start with `/prefix` (alias `/p`). All permissions default to **OP*
 | `/prefix group <player> <group>` | Assign a player to a group | `prefix.command.prefix.group` |
 | `/prefix reload` | Reload all configuration files | `prefix.command.prefix.reload` |
 
+> **Color arguments** accept a color code with or without the `&` prefix (e.g. `&a` or `a`). Only color codes are valid: `0`–`9` and `a`–`f`. Tab completion suggests the available codes.
+
 ### Permissions
 
 | Permission | Description |
@@ -141,11 +143,21 @@ The output jar will be at `build/libs/Prefix-<version>.jar`.
 
 Found a bug? Open an issue on [GitHub](https://github.com/fronsky-development/prefix/issues) with your Minecraft version, server software, plugin version, steps to reproduce, and any console errors.
 
+## Contributing
+
+Contributions are welcome! This repository is public and source-available. Before you start, please read:
+
+- [Contributing Guidelines](CONTRIBUTING.md) — how to build, code style, and the pull request process
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Security Policy](SECURITY.md) — how to report vulnerabilities privately
+
+> Note: Prefix is proprietary software (see [LICENSE](LICENSE)). By contributing you agree that your changes are distributed under the project license.
+
 ## License
 
 Copyright &copy; 2025-2026 Fronsky. All Rights Reserved.
 
-See [LICENSE](LICENSE) for full terms.
+This is proprietary software. No part may be copied, modified, or distributed without permission. See [LICENSE](LICENSE) for full terms.
 
 <p align="center">
   Made with ❤️ by <a href="https://fronsky.nl">Fronsky</a>
