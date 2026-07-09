@@ -22,11 +22,15 @@ public class Weight implements SubCommand {
             Logger.sendMessage(sender, Messages.get("invalid-format-weight"));
             return;
         }
+        if (!PGroup.isValidGroupName(args[0])) {
+            Logger.sendMessage(sender, Messages.get("group-invalid-name"));
+            return;
+        }
         int weight;
         try {
             weight = Integer.parseInt(args[1]);
         } catch (NumberFormatException exception) {
-            Logger.sendMessage(sender, "&cInvalid number format. Please enter a valid integer.");
+            Logger.sendMessage(sender, Messages.get("invalid-number"));
             return;
         }
         var pgroup = PGroup.loadOrCreate(args[0], data);

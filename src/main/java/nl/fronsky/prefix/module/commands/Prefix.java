@@ -110,7 +110,11 @@ public class Prefix extends CommandHandler {
         var completions = super.onTabComplete(sender, command, alias, args);
 
         if (args.length >= 2) {
+            Player player = (sender instanceof Player p) ? p : null;
             String sub = args[0].toLowerCase();
+            if (!hasSilentPermission(player, getPermission() + "." + sub)) {
+                return completions;
+            }
             String input = args[args.length - 1].toLowerCase();
 
             if (args.length == 2) {

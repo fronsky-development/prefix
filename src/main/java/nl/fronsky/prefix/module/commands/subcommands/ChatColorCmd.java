@@ -23,13 +23,17 @@ public class ChatColorCmd implements SubCommand {
             Logger.sendMessage(sender, Messages.get("invalid-format-chatcolor"));
             return;
         }
-        var pgroup = PGroup.loadOrCreate(args[0], data);
-        var colorArg = args[1];
-        if (colorArg.length() < 2) {
-            Logger.sendMessage(sender, "&cInvalid color code. Usage: &<code> (e.g. &a, &6, &f)");
+        if (!PGroup.isValidGroupName(args[0])) {
+            Logger.sendMessage(sender, Messages.get("group-invalid-name"));
             return;
         }
-        pgroup.setChatColor(ColorUtil.getChatColor(colorArg.substring(1, 2)));
+        var color = ColorUtil.parseColorCode(args[1]);
+        if (color == null) {
+            Logger.sendMessage(sender, Messages.get("invalid-color"));
+            return;
+        }
+        var pgroup = PGroup.loadOrCreate(args[0], data);
+        pgroup.setChatColor(color);
         Logger.sendMessage(sender, Messages.get("chat-color-changed", "{group}", pgroup.getName()));
     }
 }

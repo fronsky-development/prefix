@@ -141,7 +141,7 @@ public abstract class CommandHandler implements TabCompleter, CommandExecutor, I
      * @param permission the permission string to check
      * @return true if permitted, false otherwise
      */
-    private boolean hasSilentPermission(Player player, String permission) {
+    protected boolean hasSilentPermission(Player player, String permission) {
         if (player == null) {
             return true;
         }

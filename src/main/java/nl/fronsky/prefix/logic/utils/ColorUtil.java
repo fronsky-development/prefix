@@ -83,4 +83,27 @@ public class ColorUtil {
         }
         return chatColor;
     }
+
+    /**
+     * Parses a user-provided color argument into a ChatColor.
+     * Accepts both bare codes ({@code a}) and prefixed codes ({@code &a}).
+     * Format codes (e.g. bold, italic) and unknown codes are rejected.
+     *
+     * @param arg the color argument
+     * @return the matching color, or {@code null} if the argument is not a valid color code
+     */
+    public static ChatColor parseColorCode(String arg) {
+        if (arg == null || arg.isEmpty()) {
+            return null;
+        }
+        String code = arg.startsWith("&") ? arg.substring(1) : arg;
+        if (code.isEmpty()) {
+            return null;
+        }
+        ChatColor color = ChatColor.getByChar(code.charAt(0));
+        if (color == null || !color.isColor()) {
+            return null;
+        }
+        return color;
+    }
 }
