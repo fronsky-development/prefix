@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/License-All%20Rights%20Reserved-red?style=for-the-badge" alt="All Rights Reserved">
 </p>
 
-<h1 align="center">Prefix</h1>
+<h1 align="center">Fronsky Prefix</h1>
 
 <p align="center">
   Lightweight chat prefix and tablist management plugin for Minecraft servers.<br>
